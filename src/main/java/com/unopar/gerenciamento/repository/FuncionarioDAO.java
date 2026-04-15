@@ -29,7 +29,7 @@ public class FuncionarioDAO {
             PreparedStatement stmt = null;
             ResultSet rs = null;
             
-            stmt = conn.prepareStatement("SELECT * FROM funcionarios");
+            stmt = conn.prepareStatement("SELECT * FROM funcionario");
             rs = stmt.executeQuery();
             
             while (rs.next()){
@@ -48,5 +48,30 @@ public class FuncionarioDAO {
             e.printStackTrace();
         }
         return dados;
+    }
+    
+    public FuncionarioDto lerPorId(int id) {
+        FuncionarioDto funcionario = new FuncionarioDto();
+        
+        try{
+            Connection conn = Conexao.conectar();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            
+            stmt = conn.prepareStatement("SELECT * FROM funcionario where id = ?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            if (rs.next()){
+                funcionario.setId(rs.getInt("id"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setCargo(rs.getString("cargo"));
+                funcionario.setDepartamento(rs.getString("departamento"));
+                funcionario.setEmail(rs.getString("email"));
+                funcionario.setDataContratacao(rs.getDate("data_contratacao"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return funcionario;
     }
 }
