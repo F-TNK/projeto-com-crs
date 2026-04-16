@@ -27,4 +27,8 @@ public class FuncionarioService {
     public FuncionarioDto lerPorId(int id){
         return repository.lerPorId(id);
     }
+    
+    public void editarFunc(FuncionarioDto funcionario){
+        repository.editar(funcionario);
+    }
 }

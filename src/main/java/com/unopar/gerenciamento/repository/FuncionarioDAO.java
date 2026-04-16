@@ -61,6 +61,7 @@ public class FuncionarioDAO {
             stmt = conn.prepareStatement("SELECT * FROM funcionario where id = ?");
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
+            
             if (rs.next()){
                 funcionario.setId(rs.getInt("id"));
                 funcionario.setNome(rs.getString("nome"));
@@ -73,5 +74,28 @@ public class FuncionarioDAO {
             e.printStackTrace();
         }
         return funcionario;
+    }
+    
+    public void editar(FuncionarioDto funcionario){
+        
+        try{
+            
+            Connection conn = Conexao.conectar();
+            PreparedStatement stmt = null;
+//            ResultSet rs = null;
+            
+            stmt = conn.prepareStatement("UPDATE funcionario SET nome=?, cargo=?, departamento=?, email=?, data_contratacao=? WHERE id = ?");
+            stmt.setString(1, funcionario.getNome());
+            stmt.setString(2, funcionario.getCargo());
+            stmt.setString(3, funcionario.getDepartamento());
+            stmt.setString(4, funcionario.getEmail());
+            stmt.setDate(5, funcionario.getDataContratacao());
+            stmt.setInt(6, funcionario.getId());
+            
+            stmt.executeUpdate();
+            
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

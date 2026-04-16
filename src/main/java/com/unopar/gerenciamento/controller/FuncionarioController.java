@@ -9,8 +9,11 @@ import com.unopar.gerenciamento.service.FuncionarioService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -35,5 +38,11 @@ public class FuncionarioController {
         FuncionarioDto funcionario = service.lerPorId(id);
         model.addAttribute("funcionario", funcionario);
         return "perfil";
+    }
+    
+    @PostMapping("/salvar")
+    public String salvar (@ModelAttribute FuncionarioDto funcionario) {
+        service.editarFunc(funcionario);
+        return "redirect:/funcionarios";
     }
 }
